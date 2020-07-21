@@ -6,7 +6,7 @@ const Parse = {
    * @returns {{}}
    */
   urlSearch: (props) => {
-    let search = props.location.search;
+    let search = props.location && props.location.search;
     if (!search) {
       return {};
     }
