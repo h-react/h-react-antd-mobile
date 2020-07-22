@@ -140,7 +140,7 @@ const Query = function (setting) {
   this.host = setting.host;
   this.crypto = setting.crypto;
   this.append = setting.append;
-  this.loginUrl = (this.router.name === "BrowserRouter") ? Auth.getLoginUrl() : '/#' + Auth.getLoginUrl()
+  this.loginUrl = '/#' + Auth.getLoginUrl()
 
   /**
    *
