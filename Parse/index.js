@@ -1,16 +1,31 @@
 const Parse = {
 
   /**
-   * 获取react，url搜索参数
-   * @param props
+   * 获取pathname
+   * @returns string
+   */
+  urlPathName: () => {
+    let name = window.location.href.split('?')[0];
+    if (!name) {
+      return '';
+    }
+    name = name.split('/');
+    name = name.pop();
+    if (name === '#') {
+      name = '';
+    }
+    return '/' + name;
+  },
+
+  /**
+   * 获取url搜索参数
    * @returns {{}}
    */
-  urlSearch: (props) => {
-    let search = props.location && props.location.search;
+  urlSearch: () => {
+    let search = window.location.href.split('?')[1];
     if (!search) {
       return {};
     }
-    search = search.split('?')[1];
     search = search.split('&');
     const params = {};
     search.forEach((v) => {
