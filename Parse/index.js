@@ -2,19 +2,37 @@ const Parse = {
 
   /**
    * 获取pathname
+   * @returns {{}}
+   */
+  urlDispatch: (location) => {
+    location = location || window.location.href;
+    const url = location.replace(window.location.protocol + '//' + window.location.host, '');
+    const dispatch = url.split('?')
+    let pathname = dispatch[0];
+    const searchStr = dispatch[1] || '';
+    const search = {};
+    if (searchStr !== '') {
+      let searchArr = searchStr.split('&');
+      searchArr.forEach((v) => {
+        v = decodeURIComponent(v)
+        v = v.split('=');
+        const n = Number(v[1]);
+        search[v[0]] = !isNaN(n) ? n : v[1];
+      });
+    }
+    return {
+      url: url,
+      pathname: pathname,
+      search: search,
+    };
+  },
+
+  /**
+   * 获取url pathName
    * @returns string
    */
   urlPathName: () => {
-    let name = window.location.href.split('?')[0];
-    if (!name) {
-      return '';
-    }
-    name = name.split('/');
-    name = name.pop();
-    if (name === '#') {
-      name = '';
-    }
-    return '/' + name;
+    return Parse.urlDispatch().pathname;
   },
 
   /**
@@ -22,19 +40,7 @@ const Parse = {
    * @returns {{}}
    */
   urlSearch: () => {
-    let search = window.location.href.split('?')[1];
-    if (!search) {
-      return {};
-    }
-    search = search.split('&');
-    const params = {};
-    search.forEach((v) => {
-      v = decodeURIComponent(v)
-      v = v.split('=');
-      const n = Number(v[1]);
-      params[v[0]] = !isNaN(n) ? n : v[1];
-    });
-    return params;
+    return Parse.urlDispatch().search;
   },
 
   /**

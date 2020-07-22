@@ -1,4 +1,5 @@
 import {Toast} from "antd-mobile";
+import {Parse} from "../index";
 
 const $History = {
   data: {},
@@ -52,12 +53,13 @@ const $History = {
     $History.push = (url) => {
       if (!$History.dispatch()) {
         $History.dispatch(true);
-        if ($History.router[url]) {
-          $this.state.subPages.push({url: url, ...$History.router[url]});
+        const location = Parse.urlDispatch(url);
+        if ($History.router[location.url]) {
+          $this.state.subPages.push({url: location.url, ...$History.router[location.url]});
           $this.setState({
             subPages: $this.state.subPages,
           });
-          window.history.pushState(null, null, '/#' + url);
+          window.history.pushState(null, null, location.url);
           setTimeout(() => {
             $History.efficacy('push');
           }, 50)
@@ -69,12 +71,12 @@ const $History = {
     $History.pop = () => {
       if (!$History.dispatch()) {
         if ($this.state.subPages.length <= 1) {
-          history.replaceState(null, null, '/#');
+          history.replaceState(null, null, '/');
           return;
         }
         $History.dispatch(true);
         $History.efficacy('pop');
-        history.replaceState(null, null, '/#' + $this.state.subPages[$this.state.subPages.length - 2].url);
+        history.replaceState(null, null, $this.state.subPages[$this.state.subPages.length - 2].url);
         setTimeout(() => {
           $this.state.subPages.pop();
           $this.setState({
