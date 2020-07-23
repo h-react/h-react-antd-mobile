@@ -54,8 +54,9 @@ const $History = {
       if (!$History.dispatch()) {
         $History.dispatch(true);
         const location = Parse.urlDispatch(url);
-        if ($History.router[location.url]) {
-          $this.state.subPages.push({url: location.url, ...$History.router[location.url]});
+        console.log(location);
+        if ($History.router[location.pathname]) {
+          $this.state.subPages.push({url: location.url, ...$History.router[location.pathname]});
           $this.setState({
             subPages: $this.state.subPages,
           });
