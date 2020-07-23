@@ -64,7 +64,7 @@ const $History = {
             $History.efficacy('push');
           }, 50)
         } else {
-          Toast.fail('$History push fail!');
+          Toast.fail('History push fail!');
         }
       }
     }
@@ -98,7 +98,7 @@ const $History = {
             $History.efficacy('replace');
           }, 0)
         } else {
-          Toast.fail('$History replace fail!');
+          Toast.fail('History replace fail!');
         }
       }
     }
