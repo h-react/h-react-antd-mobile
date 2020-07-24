@@ -11,5 +11,6 @@ export {default as Path} from './Path';
 // export {default as Xoss} from './Xoss';
 export {default as Moment} from './Moment';
 export {default as History} from './History';
+export {default as Initial} from './History/Initial';
 // components
 export {default as TitleF2} from './TitleF2';
