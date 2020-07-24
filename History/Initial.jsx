@@ -43,7 +43,7 @@ class Initial extends Component {
         History.efficacy('init');
         window.prevUrl = window.location.href;
         window.onpopstate = function (event) {
-          window.history.pushState(null, null, document.URL);
+          window.history.replaceState(null, null, document.URL);
           History.pop();
         };
         break;

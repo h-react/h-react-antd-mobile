@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 @mainColor: #108ee9;
-@animateDur: 0.4s;
+@animateDur: 0.3s;
 
 @keyframes iconAnimate {
   0% {
@@ -16,6 +16,13 @@
   100% {
     color: #42ab42;
     text-shadow: 10px 10px #42ab42;
+  }
+}
+
+/* iPhoneX之后的适配 */
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .app {
+    padding-bottom: 1.7rem;
   }
 }
 
@@ -81,7 +88,6 @@
       color: #444444;
       opacity: 0;
       transition: all 0.3s;
-      transition-timing-function: linear;
       transform: translateX(-50%);
     }
 
@@ -109,8 +115,7 @@
         opacity: 1;
         transition: all @animateDur;
         background: #ffffff;
-        transition-timing-function: ease-in-out;
-        transform: translateX(100%) rotateZ(0deg);
+        transform: translateX(100%);
         filter: grayscale(0%);
 
         .am-navbar-title {
@@ -121,8 +126,7 @@
 
       > div.diving {
         z-index: 6;
-        opacity: 0.8;
-        transform: translateX(-30%) rotateZ(-3deg);;
+        transform: translateX(-100%);
         filter: grayscale(100%);
       }
 
@@ -143,6 +147,7 @@
         opacity: 1;
         transform: translateX(0);
         filter: grayscale(0%);
+
 
         .am-navbar-title {
           opacity: 1;

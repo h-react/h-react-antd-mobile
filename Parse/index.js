@@ -6,7 +6,7 @@ const Parse = {
    */
   urlDispatch: (location) => {
     location = location || window.location.href;
-    const url = location.replace(window.location.protocol + '//' + window.location.host, '');
+    const url = location.replace(window.location.protocol + '//' + window.location.host, '').replace('/#', '');
     const dispatch = url.split('?')
     let pathname = dispatch[0];
     const searchStr = dispatch[1] || '';

@@ -4,39 +4,38 @@ import {Parse} from "../index";
 const $History = {
   data: {},
   router: {},
+  prefix: '',
   dispatching: false,
   dispatch: null,
   push: null,
   pop: null,
   replace: null,
   efficacy: (action) => {
-    setTimeout(() => {
-      const back = document.querySelectorAll(".subPages >.back");
-      const subs = document.querySelectorAll(".subPages >.subs > div");
-      back[0].className = subs.length <= 1 ? 'back' : 'back show';
-      switch (action) {
-        case 'init':
-          if (subs.length === 1) {
-            subs[subs.length - 1].className = 'first';
-          } else if (subs.length === 2) {
-            subs[subs.length - 2].className = 'diving';
-            subs[subs.length - 1].className = 'first';
-          }
-          break;
-        case 'push':
+    const back = document.querySelectorAll(".subPages >.back");
+    const subs = document.querySelectorAll(".subPages >.subs > div");
+    back[0].className = subs.length <= 1 ? 'back' : 'back show';
+    switch (action) {
+      case 'init':
+        if (subs.length === 1) {
+          subs[subs.length - 1].className = 'first';
+        } else if (subs.length === 2) {
           subs[subs.length - 2].className = 'diving';
-          subs[subs.length - 1].className = 'face';
-          break;
-        case 'pop':
-          subs[subs.length - 1].className = 'leave';
-          subs[subs.length - 2].className = 'face';
-          back[0].className = subs.length <= 2 ? 'back' : 'back show';
-          break;
-        case 'replace':
-          subs[subs.length - 1].className = 'face';
-          break;
-      }
-    }, 0)
+          subs[subs.length - 1].className = 'first';
+        }
+        break;
+      case 'push':
+        subs[subs.length - 2].className = 'diving';
+        subs[subs.length - 1].className = 'face';
+        break;
+      case 'pop':
+        subs[subs.length - 1].className = 'leave';
+        subs[subs.length - 2].className = 'face';
+        back[0].className = subs.length <= 2 ? 'back' : 'back show';
+        break;
+      case 'replace':
+        subs[subs.length - 1].className = 'face';
+        break;
+    }
   },
   state: ($this) => {
     $History.dispatch = (status) => {
@@ -45,7 +44,8 @@ const $History = {
       }
       $History.dispatching = status;
       if (status === true) {
-        setTimeout(() => {
+        const t = setTimeout(() => {
+          window.clearTimeout(t);
           $History.dispatching = false;
         }, 600)
       }
@@ -54,14 +54,14 @@ const $History = {
       if (!$History.dispatch()) {
         $History.dispatch(true);
         const location = Parse.urlDispatch(url);
-        console.log(location);
         if ($History.router[location.pathname]) {
           $this.state.subPages.push({url: location.url, ...$History.router[location.pathname]});
           $this.setState({
             subPages: $this.state.subPages,
           });
-          window.history.pushState(null, null, location.url);
-          setTimeout(() => {
+          window.history.replaceState(null, null, $History.prefix + location.url);
+          const t = setTimeout(() => {
+            window.clearTimeout(t);
             $History.efficacy('push');
           }, 50)
         } else {
@@ -72,18 +72,19 @@ const $History = {
     $History.pop = () => {
       if (!$History.dispatch()) {
         if ($this.state.subPages.length <= 1) {
-          history.replaceState(null, null, '/');
+          window.history.replaceState(null, null, $History.prefix + '/');
           return;
         }
         $History.dispatch(true);
         $History.efficacy('pop');
-        history.replaceState(null, null, $this.state.subPages[$this.state.subPages.length - 2].url);
-        setTimeout(() => {
+        window.history.replaceState(null, null, $History.prefix + $this.state.subPages[$this.state.subPages.length - 2].url);
+        const t = setTimeout(() => {
+          window.clearTimeout(t);
           $this.state.subPages.pop();
           $this.setState({
             subPages: $this.state.subPages,
           })
-        }, 300)
+        }, 400)
       }
     }
     $History.replace = (url) => {
@@ -95,7 +96,9 @@ const $History = {
           $this.setState({
             subPages: $this.state.subPages,
           });
-          setTimeout(() => {
+          window.history.replaceState(null, null, $History.prefix + url);
+          const t = setTimeout(() => {
+            window.clearTimeout(t);
             $History.efficacy('replace');
           }, 0)
         } else {
