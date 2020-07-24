@@ -81,7 +81,7 @@
       color: #444444;
       opacity: 0;
       transition: all 0.3s;
-      transition-timing-function: ease-in;
+      transition-timing-function: linear;
       transform: translateX(-50%);
     }
 
@@ -110,7 +110,8 @@
         transition: all @animateDur;
         background: #ffffff;
         transition-timing-function: ease-in-out;
-        transform: translateX(100%);
+        transform: translateX(100%) rotateZ(0deg);
+        filter: grayscale(0%);
 
         .am-navbar-title {
           opacity: 0;
@@ -121,7 +122,8 @@
       > div.diving {
         z-index: 6;
         opacity: 0.8;
-        transform: translateX(-10%);
+        transform: translateX(-30%) rotateZ(-3deg);;
+        filter: grayscale(100%);
       }
 
       > div.first {
@@ -129,6 +131,7 @@
         opacity: 1;
         transition: all 0s;
         transform: translateX(0);
+        filter: grayscale(0%);
 
         .am-navbar-title {
           opacity: 1;
@@ -139,6 +142,7 @@
         z-index: 8;
         opacity: 1;
         transform: translateX(0);
+        filter: grayscale(0%);
 
         .am-navbar-title {
           opacity: 1;
@@ -149,6 +153,7 @@
         z-index: 9;
         opacity: 1;
         transform: translateX(100%);
+        filter: grayscale(0%);
       }
 
     }
