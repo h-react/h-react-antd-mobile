@@ -84,7 +84,7 @@ const $History = {
           $this.setState({
             subPages: $this.state.subPages,
           })
-        }, 400)
+        }, 430)
       }
     }
     $History.replace = (url) => {
