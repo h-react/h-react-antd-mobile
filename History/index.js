@@ -2,7 +2,7 @@ import {Toast} from "antd-mobile";
 import {Parse} from "../index";
 
 const $History = {
-  data: {},
+  app: null,
   router: {},
   prefix: '',
   dispatching: false,
@@ -37,7 +37,8 @@ const $History = {
         break;
     }
   },
-  state: ($this) => {
+  link: ($this) => {
+    $History.app = $this;
     $History.dispatch = (status) => {
       if (status === undefined) {
         return $History.dispatching;

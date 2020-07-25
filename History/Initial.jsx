@@ -17,6 +17,7 @@ class Initial extends Component {
     const location = Parse.urlDispatch();
 
     this.state = {
+      mock: props.mock,
       loggingStatus: loggingStatus.demo,
       subPages: [
         {url: location.pathname === '/' ? location.url : '/', ...History.router['/']},
@@ -28,7 +29,7 @@ class Initial extends Component {
       this.state.subPages.push({url: location.url, ...History.router[location.pathname]});
     }
 
-    History.state(this);
+    History.link(this);
 
     if (Auth.isLogging()) {
       this.state.loggingStatus = loggingStatus.logging;
