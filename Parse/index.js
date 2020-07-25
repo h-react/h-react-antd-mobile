@@ -66,6 +66,15 @@ const Parse = {
     return paramStr;
   },
 
+  cleanHTML: (txt) => {
+    return txt.replace(/\s/g, "")
+      .replace('\t', "")
+      .replace('\n', "")
+      .replace('\r', "")
+      .replace(/(<([^>]+)>)/ig, "")
+      .replace(/&.*?;/ig, "");
+  },
+
   /**
    * 比较两个值的大小
    * data1 > data2返回 1
