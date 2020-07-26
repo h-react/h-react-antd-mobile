@@ -42,11 +42,6 @@ class Initial extends Component {
     switch (this.state.loggingStatus) {
       case loggingStatus.logging:
         History.efficacy('init');
-        window.prevUrl = window.location.href;
-        window.onpopstate = function (event) {
-          window.history.replaceState(null, null, document.URL);
-          History.pop();
-        };
         break;
       case loggingStatus.wechat:
         Api.query().post({SDK_WXMP_LOGIN: {}}, (response) => {
