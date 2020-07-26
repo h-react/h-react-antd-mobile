@@ -17,7 +17,7 @@ class Initial extends Component {
     const location = Parse.urlDispatch();
 
     this.state = {
-      mock: props.mock,
+      ...props.data,
       loggingStatus: loggingStatus.demo,
       subPages: [
         {url: location.pathname === '/' ? location.url : '/', ...History.router['/']},

@@ -39,6 +39,27 @@ const $History = {
   },
   link: ($this) => {
     $History.app = $this;
+    $History.state = $this.state;
+    $History.setState = (data) => {
+      $History.app.setState(data);
+    };
+    $History.getState = (key, callValue) => {
+      const kArr = key.split('.');
+      let tar = $History.state;
+      let res = null;
+      for (const k in kArr) {
+        if (tar[kArr[k]] === undefined) {
+          break;
+        } else {
+          res = tar[kArr[k]];
+          tar = tar[kArr[k]];
+        }
+      }
+      if (!res && typeof callValue === 'function') {
+        res = callValue();
+      }
+      return res;
+    }
     $History.dispatch = (status) => {
       if (status === undefined) {
         return $History.dispatching;
