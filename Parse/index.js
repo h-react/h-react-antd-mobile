@@ -76,6 +76,23 @@ const Parse = {
   },
 
   /**
+   * antd mapping value转文本
+   */
+  mapLabel: (map, value) => {
+    if (!map || !value) {
+      return '';
+    }
+    let res = '';
+    for (const k in map) {
+      if (map[k].value === value) {
+        res = map[k].label;
+        break;
+      }
+    }
+    return res;
+  },
+
+  /**
    * 比较两个值的大小
    * data1 > data2返回 1
    * data1 < data2返回 -1

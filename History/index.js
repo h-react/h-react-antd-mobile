@@ -49,13 +49,14 @@ const $History = {
       let res = null;
       for (const k in kArr) {
         if (tar[kArr[k]] === undefined) {
+          res = null;
           break;
         } else {
           res = tar[kArr[k]];
           tar = tar[kArr[k]];
         }
       }
-      if (!res && typeof callValue === 'function') {
+      if (res === null && typeof callValue === 'function') {
         res = callValue();
       }
       return res;
