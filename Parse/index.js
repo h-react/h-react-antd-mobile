@@ -93,6 +93,31 @@ const Parse = {
   },
 
   /**
+   * 隐藏字符串
+   * str 目标串
+   * head 开头显示几位
+   * tail 结尾显示几位
+   */
+  hideString: (str, head, tail) => {
+    if (!str) {
+      return '*****';
+    }
+    if (str.length < 5) {
+      return str.substr(0, 1) + '****';
+    }
+    if (head + tail >= str.length) {
+      head = tail = Math.floor(str.length / 2 - 1);
+    }
+    const midLen = str.length - head - tail;
+    let res = str.substr(0, head);
+    for (let i = 0; i < midLen; i += 1) {
+      res += '*';
+    }
+    res += str.substr(-tail, tail);
+    return res;
+  },
+
+  /**
    * 比较两个值的大小
    * data1 > data2返回 1
    * data1 < data2返回 -1
