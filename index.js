@@ -13,5 +13,6 @@ export {default as Moment} from './Moment';
 export {default as History} from './History';
 export {default as Initial} from './History/Initial';
 export {default as Error} from './Error';
+export {default as MultiSelector} from './MultiSelector';
 // components
 export {default as TitleF2} from './TitleF2';
