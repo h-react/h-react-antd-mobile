@@ -93,6 +93,23 @@ const Parse = {
   },
 
   /**
+   * antd mapping label转value
+   */
+  mapValue: (map, label) => {
+    if (!map || !label) {
+      return '';
+    }
+    let res = '';
+    for (const k in map) {
+      if (map[k].label === label) {
+        res = map[k].value;
+        break;
+      }
+    }
+    return res;
+  },
+
+  /**
    * 隐藏字符串
    * str 目标串
    * head 开头显示几位
