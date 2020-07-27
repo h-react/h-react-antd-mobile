@@ -10,7 +10,7 @@ class MultiSelector extends Component {
 
     this.currentLabels = [];
     this.state = {
-      tips: I18n("PLEASE_CHOOSE"),
+      tips: '',
       value: {},
       otherValue: '',
     }
@@ -28,6 +28,10 @@ class MultiSelector extends Component {
     if (props.otherValue !== undefined) {
       this.state.otherValue = props.otherValue.join(',');
     }
+  }
+
+  componentDidMount() {
+    this.tips();
   }
 
   toggleModal = (key, status = false) => {
@@ -70,7 +74,6 @@ class MultiSelector extends Component {
       }
       if (tips.length > 3) break;
     }
-    console.log(tips);
     if (tips.length <= 3) {
       if (this.state.otherValue.length > 0) {
         let o = this.state.otherValue.replace("，", ",");
@@ -82,7 +85,7 @@ class MultiSelector extends Component {
       }
     }
     this.setState({
-      tips: `(${tips.length})` + tips.join('、')
+      tips: tips.length > 0 ? `(${tips.length})` + tips.join('、') : I18n("PLEASE_CHOOSE"),
     });
   }
 
