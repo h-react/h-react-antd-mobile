@@ -125,7 +125,7 @@ class ModalSelectorMulti extends Component {
             <div className="am-picker-popup-header">
               <div className="am-picker-popup-item am-picker-popup-header-left" onClick={() => {
                 this.cancel();
-              }}>取消
+              }}>{I18n('CANCEL')}
               </div>
               <div className="am-picker-popup-item am-picker-popup-title">{this.props.title}</div>
               <div className="am-picker-popup-item am-picker-popup-header-right" onClick={() => {
