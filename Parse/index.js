@@ -75,6 +75,23 @@ const Parse = {
       .replace(/&.*?;/ig, "");
   },
 
+  limitStr: (txt, len) => {
+    let strLen = 0;
+    let s = "";
+    for (let i = 0; i < txt.length; i++) {
+      if (txt.charCodeAt(i) > 128) {
+        strLen += 2;
+      } else {
+        strLen++;
+      }
+      s += txt.charAt(i);
+      if (strLen >= len) {
+        return s + "...";
+      }
+    }
+    return s;
+  },
+
   /**
    * antd mapping value转文本
    */
