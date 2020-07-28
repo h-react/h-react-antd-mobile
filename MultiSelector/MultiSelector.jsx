@@ -1,6 +1,6 @@
 import './MultiSelector.less';
 import React, {Component} from 'react';
-import {Button, WingBlank, List, Modal, Checkbox, TextareaItem, WhiteSpace} from "antd-mobile";
+import {List, Modal, Checkbox, TextareaItem} from "antd-mobile";
 import Parse from "../Parse";
 import {I18n} from "../index";
 
@@ -10,23 +10,27 @@ class MultiSelector extends Component {
 
     this.currentLabels = [];
     this.state = {
+      visible: false,
       tips: '',
       value: {},
       otherValue: '',
     }
+    this.reset();
+  }
 
-    // 初始化
-    props.data.forEach((opt) => {
+  // 初始化
+  reset = () => {
+    this.props.data.forEach((opt) => {
       this.state.value[opt.value] = false;
       this.currentLabels.push(opt.label);
-      if (props.value !== undefined && props.value.length > 0) {
-        if (props.value.includes(opt.value) === true) {
+      if (this.props.value !== undefined && this.props.value.length > 0) {
+        if (this.props.value.includes(opt.value) === true) {
           this.state.value[opt.value] = true;
         }
       }
     });
-    if (props.otherValue !== undefined) {
-      this.state.otherValue = props.otherValue.join(',');
+    if (this.props.otherValue !== undefined) {
+      this.state.otherValue = this.props.otherValue.join(',');
     }
   }
 
@@ -34,10 +38,24 @@ class MultiSelector extends Component {
     this.tips();
   }
 
-  toggleModal = (key, status = false) => {
+  toggleModal = (status = false) => {
     this.setState({
-      [key + "ModalVisible"]: status
+      visible: status
     })
+  }
+
+  cancel = () => {
+    this.reset();
+    this.setState({visible: false});
+    this.tips();
+  }
+
+  sure = () => {
+    this.setState({visible: false});
+    this.tips();
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(...this.formatter())
+    }
   }
 
   formatter = () => {
@@ -67,6 +85,10 @@ class MultiSelector extends Component {
 
 
   tips = () => {
+    this.setState({
+      value: this.state.value,
+      otherValue: this.state.otherValue,
+    });
     const tips = [];
     for (let k in this.state.value) {
       if (this.state.value[k] === true) {
@@ -99,62 +121,62 @@ class MultiSelector extends Component {
       <div>
         <Modal
           popup
-          visible={this.state.workModalVisible}
+          visible={this.state.visible}
           onClose={() => {
-            this.toggleModal('work')
+            this.cancel();
           }}
           animationType="slide-up"
         >
-          <List className="components-multi-selector-list">
-            {
-              (this.props.data || []).map((opt) => {
-                return (
-                  <CheckboxItem
-                    key={opt.value}
-                    checked={this.state.value[opt.value]}
-                    onChange={(evt) => {
-                      this.state.value[opt.value] = evt.target.checked;
-                      this.tips();
-                    }}
-                  >
-                    {opt.label}
-                  </CheckboxItem>
-                )
-              })
-            }
-            {
-              this.props.allowOther === true &&
-              <TextareaItem
-                title="其他"
-                defaultValue={this.state.otherValue}
-                placeholder={this.props.placeholder || "用逗号来隔开多个输入项"}
-                rows={5}
-                onChange={(value) => {
-                  this.state.otherValue = value;
-                  this.setState({
-                    data: this.state.data
-                  });
-                  this.tips();
-                }}
-              />
-            }
-          </List>
-          <WhiteSpace/>
-          <WingBlank>
-            <Button type="primary" size="small" onClick={() => {
-              if (typeof this.props.onChange === 'function') {
-                this.props.onChange(...this.formatter())
+          <div className="components-multi-selector-list">
+            <div className="am-picker-popup-header">
+              <div className="am-picker-popup-item am-picker-popup-header-left" onClick={() => {
+                this.cancel();
+              }}>取消
+              </div>
+              <div className="am-picker-popup-item am-picker-popup-title">{this.props.title}</div>
+              <div className="am-picker-popup-item am-picker-popup-header-right" onClick={() => {
+                this.sure();
+              }}>{I18n('SURE')}
+              </div>
+            </div>
+            <List>
+              {
+                (this.props.data || []).map((opt) => {
+                  return (
+                    <CheckboxItem
+                      key={opt.value}
+                      checked={this.state.value[opt.value]}
+                      onChange={(evt) => {
+                        this.state.value[opt.value] = evt.target.checked;
+                        this.tips();
+                      }}
+                    >
+                      {opt.label}
+                    </CheckboxItem>
+                  )
+                })
               }
-              this.toggleModal('work')
-            }}>{I18n('SURE')}</Button>
-          </WingBlank>
-          <WhiteSpace/>
+              {
+                this.props.allowOther === true &&
+                <TextareaItem
+                  title="其他"
+                  defaultValue={this.state.otherValue}
+                  placeholder={this.props.placeholder || "用逗号来隔开多个输入项"}
+                  rows={5}
+                  onChange={(value) => {
+                    this.state.otherValue = value;
+                    this.tips();
+                  }}
+                />
+              }
+            </List>
+          </div>
         </Modal>
         <Item
           extra={this.state.tips}
           arrow="horizontal"
           onClick={() => {
-            this.toggleModal('work', true);
+            this.toggleModal(true);
           }}
         >{this.props.children}</Item>
       </div>
