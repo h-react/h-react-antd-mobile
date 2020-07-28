@@ -1,10 +1,10 @@
-import './ModalSelectorMulti.less';
+import './ModalSelectorSingle.less';
 import React, {Component} from 'react';
-import {List, Modal, Checkbox, TextareaItem} from "antd-mobile";
+import {List, Modal, Checkbox, TextareaItem, Picker} from "antd-mobile";
 import Parse from "../Parse";
-import {I18n} from "../index";
+import {History, I18n} from "../index";
 
-class ModalSelectorMulti extends Component {
+class ModalSelectorSingle extends Component {
   constructor(props) {
     super(props);
 
@@ -12,14 +12,15 @@ class ModalSelectorMulti extends Component {
     this.state = {
       visible: false,
       tips: '',
-      value: {},
-      otherValue: '',
+      value: null,
     }
     this.reset();
   }
 
   // 初始化
   reset = () => {
+    this.state.value[opt.value] = false;
+
     this.props.data.forEach((opt) => {
       this.state.value[opt.value] = false;
       this.currentLabels.push(opt.label);
@@ -29,9 +30,6 @@ class ModalSelectorMulti extends Component {
         }
       }
     });
-    if (this.props.otherValue !== undefined) {
-      this.state.otherValue = this.props.otherValue.join(',');
-    }
   }
 
   componentDidMount() {
@@ -133,49 +131,23 @@ class ModalSelectorMulti extends Component {
               }}>{I18n('SURE')}
               </div>
             </div>
-            <List>
-              {
-                (this.props.data || []).map((opt) => {
-                  return (
-                    <CheckboxItem
-                      key={opt.value}
-                      checked={this.state.value[opt.value]}
-                      onChange={(evt) => {
-                        this.state.value[opt.value] = evt.target.checked;
-                        this.tips();
-                      }}
-                    >
-                      {opt.label}
-                    </CheckboxItem>
-                  )
-                })
-              }
-              {
-                this.props.allowOther === true &&
-                <TextareaItem
-                  title="其他"
-                  defaultValue={this.state.otherValue}
-                  placeholder={this.props.placeholder || "用逗号来隔开多个输入项"}
-                  rows={5}
-                  onChange={(value) => {
-                    this.state.otherValue = value;
-                    this.tips();
-                  }}
-                />
-              }
-            </List>
+            <Picker
+              data={this.props.data || []}
+              cols={1}
+              title={this.props.title}
+              value={this.state.value}
+              onChange={(val) => {
+                this.changed('work', [val[0]]);
+              }}>
+            </Picker>
           </div>
         </Modal>
-        <Item
-          extra={this.state.tips}
-          arrow="horizontal"
-          onClick={() => {
-            this.setState({visible: true})
-          }}
-        >{this.props.children}</Item>
+        <div onClick={() => {
+          this.setState({visible: status})
+        }}>{this.props.children}</div>
       </div>
     );
   }
 }
 
-export default ModalSelectorMulti;
+export default ModalSelectorSingle;
