@@ -247,6 +247,22 @@ const Parse = {
     return arr;
   },
 
+  /**
+   * 生成序列
+   * @param start 开始数字
+   * @param end 结束数字
+   * @param step 间隔数值
+   * @returns []
+   */
+  sequence: function (start, end, step = 1) {
+    const arr = [];
+    while (start <= end) {
+      arr.push(start);
+      start += step;
+    }
+    return arr;
+  },
+
 };
 
 export default Parse;
