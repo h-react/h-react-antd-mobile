@@ -1,10 +1,10 @@
-import './MultiSelector.less';
+import './ModalSelectorMulti.less';
 import React, {Component} from 'react';
 import {List, Modal, Checkbox, TextareaItem} from "antd-mobile";
 import Parse from "../Parse";
 import {I18n} from "../index";
 
-class MultiSelector extends Component {
+class ModalSelectorMulti extends Component {
   constructor(props) {
     super(props);
 
@@ -122,10 +122,10 @@ class MultiSelector extends Component {
         <Modal
           popup
           visible={this.state.visible}
+          animationType={this.props.animationType || "slide-up"}
           onClose={() => {
             this.cancel();
           }}
-          animationType="slide-up"
         >
           <div className="components-multi-selector-list">
             <div className="am-picker-popup-header">
@@ -184,4 +184,4 @@ class MultiSelector extends Component {
   }
 }
 
-export default MultiSelector;
+export default ModalSelectorMulti;
