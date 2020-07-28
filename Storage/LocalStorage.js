@@ -21,9 +21,9 @@ const LocalStorage = {
       localStorage.setItem(key, value);
     }
   },
-  get(key) {
+  get(key, defaultValue) {
     let item = localStorage.getItem(key);
-    let data = null;
+    let data = defaultValue || null;
     try {
       data = JSON.parse(item);
     } catch (error) {
@@ -34,14 +34,14 @@ const LocalStorage = {
         let date = new Date().getTime();
         if (date - data.startTime > data.expires) {
           localStorage.removeItem(name);
-          return null;
+          return defaultValue || null;
         } else {
           return data.value;
         }
       }
       return data;
     }
-    return null;
+    return defaultValue || null;
   },
   clear: (key) => {
     localStorage.removeItem(key);
