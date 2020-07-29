@@ -17,3 +17,4 @@ export {default as ModalSelectorSingle} from './ModalSelectorSingle';
 export {default as ModalSelectorMulti} from './ModalSelectorMulti';
 // components
 export {default as TitleF2} from './TitleF2';
+export {default as TitleAdapt} from './TitleAdapt';

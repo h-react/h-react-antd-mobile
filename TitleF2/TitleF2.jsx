@@ -8,8 +8,11 @@ class TitleF2 extends Component {
 
   render() {
     return (
-      <div className="components-title-f2">
-        {this.props.message}
+      <div
+        className={`components-title-f2 ${this.props.className || ''}`}
+        style={this.props.style || {}}
+      >
+        {this.props.children || ''}
       </div>
     );
   }
