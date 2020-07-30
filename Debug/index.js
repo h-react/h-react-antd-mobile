@@ -11,7 +11,7 @@ const debug = {
     }
   },
   echo: (data) => {
-    const key = LocalStorage.set('debug');
+    const key = LocalStorage.get('debug');
     if (key === 'alert') {
       window.confirm(typeof data === 'object' ? JSON.stringify(data) : data);
     } else if (key === 'log') {
