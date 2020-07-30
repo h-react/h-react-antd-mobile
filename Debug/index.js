@@ -7,8 +7,10 @@ const debug = {
     return debug.status;
   },
   echo: (data) => {
-    const s = typeof data === 'object' ? JSON.stringify(data) : data;
-    window.confirm(s);
+    if (debug.status) {
+      const s = typeof data === 'object' ? JSON.stringify(data) : data;
+      window.confirm(s);
+    }
   }
 };
 
