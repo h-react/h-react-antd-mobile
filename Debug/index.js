@@ -1,15 +1,21 @@
+import {LocalStorage} from "../index";
+
 const debug = {
-  status: false,
-  openDebug: () => {
-    debug.status = true;
-  },
-  isDebug: () => {
-    return debug.status;
+  set: (key) => {
+    switch (key) {
+      case 'alert':
+      case 'log':
+      case 'close':
+        LocalStorage.set('debug', key);
+        break;
+    }
   },
   echo: (data) => {
-    if (debug.status) {
-      const s = typeof data === 'object' ? JSON.stringify(data) : data;
-      window.confirm(s);
+    const key = LocalStorage.set('debug');
+    if (key === 'alert') {
+      window.confirm(typeof data === 'object' ? JSON.stringify(data) : data);
+    } else if (key === 'log') {
+      console.info(data);
     }
   }
 };

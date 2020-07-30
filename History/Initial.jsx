@@ -16,9 +16,7 @@ class Initial extends Component {
 
     const location = Parse.urlDispatch();
 
-    if (location.search.debug === 'open') {
-      Debug.openDebug();
-    }
+    Debug.set(location.search.debug);
 
     this.state = {
       ...props.data,
