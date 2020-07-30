@@ -1,7 +1,7 @@
 import './Initial.less';
 import React, {Component} from 'react';
 import {WechatOutlined, LeftOutlined} from '@ant-design/icons';
-import {Api, Auth, I18n, Parse, History} from "h-react-antd-mobile";
+import {Api, Auth, I18n, Parse, History, Debug} from "h-react-antd-mobile";
 import {Toast} from "antd-mobile";
 
 const loggingStatus = {
@@ -15,6 +15,10 @@ class Initial extends Component {
     super(props);
 
     const location = Parse.urlDispatch();
+
+    if (location.search.debug === 'open') {
+      Debug.openDebug();
+    }
 
     this.state = {
       ...props.data,
