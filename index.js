@@ -8,6 +8,7 @@ export {default as LocalStorage} from './Storage/LocalStorage';
 export {default as SessionStorage} from './Storage/SessionStorage';
 export {default as Parse} from './Parse';
 export {default as Path} from './Path';
+export {default as Navigator} from './Navigator';
 // export {default as Xoss} from './Xoss';
 export {default as Moment} from './Moment';
 export {default as History} from './History';
