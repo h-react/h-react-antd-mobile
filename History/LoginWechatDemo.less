@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+.h-react-login-wechat-demo {
+
+  width: 100%;
+  flex: 1;
+
+  #wx-mark {
+    position: fixed;
+    top: 30%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    line-height: 10;
+    border-radius: 50%;
+    background: #42ab42;
+    opacity: 1;
+    transition: all 0.5s;
+  }
+
+  #wx-mark.logging {
+    display: none;
+  }
+
+  #wx-mark.login1 {
+    top: 0;
+    width: 160%;
+    height: 100%;
+    line-height: 100%;
+    border-radius: 0;
+    opacity: 1;
+  }
+
+  #wx-mark.login2 {
+    top: 100%;
+    width: 100%;
+    opacity: 0;
+    border-radius: 0;
+  }
+
+  .waitingWechat {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 40%;
+    text-align: center;
+
+    .anticon.anticon-wechat {
+      font-size: 23vw;
+      animation: iconAnimate 4s infinite linear;
+    }
+
+    .anticon.anticon-wechat.logging {
+      font-size: 50rem;
+    }
+
+    .tips {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+  }
+
+}
