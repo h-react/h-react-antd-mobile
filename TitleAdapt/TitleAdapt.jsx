@@ -18,7 +18,7 @@ class TitleAdapt extends Component {
   }
 
   titleClass = () => {
-    const limit = Math.floor(window.screen.availWidth * 0.8 / 18);
+    const limit = Math.floor(window.document.body.offsetWidth * 0.8 / 18);
     let cls = '';
     if (this.state.txt.length > limit * 2.0) {
       cls = ' tiny-tiny'

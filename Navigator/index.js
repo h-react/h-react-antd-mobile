@@ -41,6 +41,9 @@ const Navigator = {
     if (window.navigator.vibrate) {
       window.navigator.vibrate(shakes);
     }
+  },
+  vibrationShort: () => {
+    Navigator.vibration(50);
   }
 }
 
