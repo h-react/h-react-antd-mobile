@@ -1,16 +1,14 @@
 import './LoginWechatDemo.less';
 import React, {Component} from 'react';
 import {WechatOutlined} from '@ant-design/icons';
-import {Auth, I18n, History} from "h-react-antd-mobile";
+import {I18n, History, LocalStorage} from "h-react-antd-mobile";
 import {Toast} from "antd-mobile";
 
 class Initial extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      logging: Auth.isLogging(),
-    }
+    this.state = {}
   }
 
   componentDidMount = () => {
@@ -20,9 +18,8 @@ class Initial extends Component {
       document.getElementById('wx-mark').className = "login1";
       const timer2 = setTimeout(() => {
         document.getElementById('wx-mark').className = "login2";
-        Auth.setLoggingId(1);
-        self.setState({logging: true,});
-        History.setState({logging: true,});
+        LocalStorage.set('h-react-logging-id', 1);
+        History.setState({loggingId: 1,});
         History.efficacy('init');
         window.clearTimeout(timer2);
       }, 1e3)
@@ -33,7 +30,7 @@ class Initial extends Component {
   render() {
     return (
       <div className="h-react-login-wechat-demo">
-        <div id="wx-mark" className={this.state.logging ? 'logging' : ''}/>
+        <div id="wx-mark" className={History.state.loggingId > 0 ? 'logging' : ''}/>
         <div className="waitingWechat">
           <WechatOutlined/>
           <div className="tips">

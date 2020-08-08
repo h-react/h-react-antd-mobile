@@ -90,13 +90,14 @@
         filter: grayscale(0%);
       }
 
-      > div.diving {
+      > div.diving, > div:first-child.diving {
         z-index: 6;
+        transition: all @animateDur;
         transform: scale(0.8, 0.8) translateX(-116%);
         filter: grayscale(100%);
       }
 
-      > div.first {
+      > div:first-child {
         z-index: 7;
         opacity: 1;
         transition: all 0s;

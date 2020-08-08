@@ -35,7 +35,7 @@ const Index = {
   query: (settingKey = 'def') => {
     const setting = Index.setting[settingKey];
     if (setting === undefined) {
-      throw 'API setting error';
+      throw 'setting error';
     }
     return new Query(setting);
   },

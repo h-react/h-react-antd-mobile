@@ -1,8 +1,19 @@
 import {Auth, I18n, Parse, Path} from 'h-react-antd-mobile';
 import {Toast} from 'antd-mobile';
 import axios from "axios";
+import nanoid from "nanoid";
 import Crypto from "./Crypto";
+import LocalStorage from "../Storage/LocalStorage";
 
+/**
+ * 获取客户端ID
+ */
+const clientId = () => {
+  if (LocalStorage.get('cid') === null) {
+    LocalStorage.set('cid', nanoid(42) + (new Date()).getTime().toString(36));
+  }
+  return LocalStorage.get('cid');
+}
 
 const ApiSocket = { /* host: obj */};
 const Socket = {
@@ -79,9 +90,12 @@ const Socket = {
         });
       if (totalFinish === true) {
         if (hasNotAuth === true) {
-          if (Auth.getUserId() !== undefined) {
+          if (History.state.loggingId !== null) {
             Toast.fail(I18n('LOGIN_TIMEOUT_OR_NOT_PERMISSION'), 2.00, () => {
-              location.href = conf.loginUrl;
+              History.setState({
+                loggingId: null,
+              });
+              LocalStorage.set('h-react-logging-id', null);
             });
           } else {
             Toast.offline(I18n('OPERATION_NOT_PERMISSION'));
@@ -136,11 +150,9 @@ const Socket = {
  */
 const Query = function (setting) {
 
-  this.router = setting.router;
   this.host = setting.host;
   this.crypto = setting.crypto;
   this.append = setting.append;
-  this.loginUrl = '/#' + Auth.getLoginUrl()
 
   /**
    *
@@ -176,7 +188,7 @@ const Query = function (setting) {
       method: 'post',
       url: this.host,
       data: Crypto.encode({
-        client_id: Auth.getClientId(),
+        client_id: clientId(),
         scopes: params
       }, this.crypto),
       config: {}
@@ -187,9 +199,12 @@ const Query = function (setting) {
         }
         if (typeof response.data === 'object') {
           if (typeof response.data.code === 'number' && response.data.code === 444) {
-            if (Auth.getUserId() !== undefined) {
+            if (History.state.loggingId !== null) {
               Toast.fail(I18n('LOGIN_TIMEOUT'), 2.00, () => {
-                Path.locationTo(this.loginUrl);
+                History.setState({
+                  loggingId: null,
+                });
+                LocalStorage.set('h-react-logging-id', null);
               });
             }
             then({code: 500, msg: I18n('LIMITED_OPERATION'), data: null});
@@ -261,13 +276,13 @@ const Query = function (setting) {
     Socket.stack[Socket.stackIndex].apis = {};
     Socket.stack[Socket.stackIndex].apis[apiStack] = false;
     let r = {
-      client_id: Auth.getClientId(),
+      client_id: clientId(),
       scopes: params
     };
     r.stack = `${Socket.stackIndex}#STACK#${apiStack}`;
     console.log(r);
     r = Parse.jsonEncode(r);
-    Socket.send({host: this.host, crypto: this.crypto, loginUrl: this.loginUrl}, r);
+    Socket.send({host: this.host, crypto: this.crypto}, r);
   };
 
 };
