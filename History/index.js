@@ -1,6 +1,15 @@
 import {Toast} from "antd-mobile";
 import {Parse} from "../index";
 
+const AntdLangs = {
+  "en_us": "en_US",
+  "ja_jp": "en_US", // "ja_JP",
+  "ko_kr": "en_US", // "ko_KR",
+  "zh_cn": "zh_CN",
+  "zh_hk": "zh_CN", // "zh_HK",
+  "zh_tw": "zh_CN", // "zh_TW"
+};
+
 const $History = {
   app: null,
   router: {},
@@ -113,6 +122,17 @@ const $History = {
           Toast.fail('History replace fail!');
         }
       }
+    }
+    // other
+    $History.i18nAntd = () => {
+      if ($History.state.i18n.lang === 'zh_cn') {
+        return null;
+      }
+      let l = AntdLangs[$History.state.i18n.lang];
+      if (l === undefined) {
+        l = AntdLangs.en_us
+      }
+      return require(`antd-mobile/lib/locale-provider/${l}.js`);
     }
   }
 }

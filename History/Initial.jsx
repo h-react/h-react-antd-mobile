@@ -1,5 +1,6 @@
 import './Initial.less';
 import React, {Component} from 'react';
+import {LocaleProvider} from 'antd-mobile';
 import {LeftOutlined, LoadingOutlined} from '@ant-design/icons';
 import {Api, Parse, History, Debug, Navigator, LocalStorage} from "h-react-antd-mobile";
 import LoginWechatDemo from "./LoginWechatDemo";
@@ -104,18 +105,20 @@ class Initial extends Component {
     }
     if (this.state.loggingId > 0) {
       return (
-        <div className="subPages">
-          <div className="back" onClick={() => History.pop()}><LeftOutlined/></div>
-          <div className="subs">
-            {
-              this.state.subPages.map((url, idx) => {
-                const location = Parse.urlDispatch(url);
-                const Sub = this.state.router[location.pathname].component;
-                return <div key={idx}><Sub/></div>;
-              })
-            }
+        <LocaleProvider locale={History.i18nAntd()}>
+          <div className="subPages">
+            <div className="back" onClick={() => History.pop()}><LeftOutlined/></div>
+            <div className="subs">
+              {
+                this.state.subPages.map((url, idx) => {
+                  const location = Parse.urlDispatch(url);
+                  const Sub = this.state.router[location.pathname].component;
+                  return <div key={idx}><Sub/></div>;
+                })
+              }
+            </div>
           </div>
-        </div>
+        </LocaleProvider>
       );
     } else {
       return this.props.Login || <LoginWechatDemo/>;
