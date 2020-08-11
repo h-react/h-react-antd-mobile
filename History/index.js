@@ -15,6 +15,11 @@ const $History = {
     const subs = document.querySelectorAll(".subPages >.subs > div");
     back[0].className = subs.length <= 1 ? 'back' : 'back show';
     switch (action) {
+      case 'init':
+        if (subs.length > 1) {
+          subs[subs.length - 1].className = 'init';
+        }
+        break;
       case 'push':
         subs[subs.length - 2].className = 'diving';
         subs[subs.length - 1].className = 'face';
