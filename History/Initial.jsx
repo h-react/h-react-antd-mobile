@@ -15,7 +15,7 @@ class Initial extends Component {
       preprocessingLength: this._preprocessingLength(props.preprocessing),
       preprocessingStack: 0,
       preprocessingError: [],
-      loggingId: LocalStorage.get('h-react-logging-id') || null,
+      loggingId: LocalStorage.get('h-react-logging-id') || undefined,
       subPages: [
         this.location.pathname === '/' ? this.location.url : '/',
       ],
@@ -45,8 +45,14 @@ class Initial extends Component {
           subPages: History.state.subPages,
           preprocessingStack: (this.state.preprocessingStack - 1)
         });
-        History.efficacy('init');
-      })
+        this.componentDidMount();
+      });
+    }
+  }
+
+  componentDidMount() {
+    if (this.state.preprocessingStack <= 0) {
+      History.efficacy('init');
     }
   }
 
