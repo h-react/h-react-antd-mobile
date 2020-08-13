@@ -1,8 +1,7 @@
-import {History, Parse} from 'h-react-antd-mobile';
+import {History, Parse, LocalStorage} from 'h-react-antd-mobile';
 import axios from "axios";
 import nanoid from "nanoid";
 import Crypto from "./Crypto";
-import LocalStorage from "../Storage/LocalStorage";
 
 /**
  * 获取客户端ID
