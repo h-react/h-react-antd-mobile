@@ -19,6 +19,7 @@ export {default as Navigator} from './Navigator';
 
 export {default as History} from './History';
 export {default as HistoryInitial} from './History/Initial';
+export {default as Preprocessing} from './History/Preprocessing.js';
 
 // components
 export {default as TitleF2} from './TitleF2';

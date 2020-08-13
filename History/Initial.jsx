@@ -62,10 +62,10 @@ class Initial extends Component {
     }
     for (let p in pre) {
       const t = typeof pre[p];
-      if (t === 'object') {
-        len = this._preprocessingLength(pre[p], len);
-      } else if (t === 'function' && '_promise' === pre[p].name) {
+      if (t === 'object' && typeof pre[p].name === 'function' && pre[p].name() === 'Preprocessing') {
         len++;
+      } else if (t === 'object') {
+        len = this._preprocessingLength(pre[p], len);
       }
     }
     return len
@@ -74,10 +74,8 @@ class Initial extends Component {
   _preprocessing = async (pre) => {
     for (let p in pre) {
       const t = typeof pre[p];
-      if (t === 'object') {
-        await this._preprocessing(pre[p]);
-      } else if (t === 'function' && '_promise' === pre[p].name) {
-        await pre[p]()
+      if (t === 'object' && typeof pre[p].name === 'function' && pre[p].name() === 'Preprocessing') {
+        await pre[p].query()
           .then((r) => {
             pre[p] = r;
             this.state.preprocessingStack -= 1;
@@ -89,6 +87,8 @@ class Initial extends Component {
             });
             console.error(error);
           });
+      } else if (t === 'object') {
+        await this._preprocessing(pre[p]);
       }
     }
     return pre;
