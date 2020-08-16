@@ -1,3 +1,26 @@
+/**
+ * @param shakes 震动时间(number) | [震动时间(number)，停止时间(number)，震动时间(number)，停止时间(number)]
+ */
+const vibration = (shakes) => {
+  window.navigator.vibrate = window.navigator.vibrate || window.navigator.webkitVibrate || window.navigator.mozVibrate || window.navigator.msVibrate;
+  if (window.navigator.vibrate) {
+    window.navigator.vibrate(shakes);
+  }
+}
+
+const browserLangs = {
+  "en": "en_us",
+  "en_GB": "en_us",
+  "en_US": "en_us",
+  "ja": "ja_jp",
+  "ja_JP": "ja_jp",
+  "ko": "ko_kr",
+  "ko_KR": "ko_kr",
+  "zh_CN": "zh_cn",
+  "zh_HK": "zh_hk",
+  "zh_TW": "zh_tw"
+};
+
 const Navigator = {
 
   /**
@@ -33,17 +56,27 @@ const Navigator = {
     }
     return dev.join(' ');
   },
-  /**
-   * @param shakes 震动时间(number) | [震动时间(number)，停止时间(number)，震动时间(number)，停止时间(number)]
-   */
-  vibration: (shakes) => {
-    window.navigator.vibrate = window.navigator.vibrate || window.navigator.webkitVibrate || window.navigator.mozVibrate || window.navigator.msVibrate;
-    if (window.navigator.vibrate) {
-      window.navigator.vibrate(shakes);
-    }
+  language: () => {
+    let lang = navigator.language || navigator.browserLanguage;
+    lang = lang.replace('-', '_');
+    return browserLangs[lang] || 'zh_cn';
   },
-  vibrationShort: () => {
-    Navigator.vibration(50);
+  /**
+   * @param 震动
+   */
+  vibration: {
+    short: () => {
+      vibration(50);
+    },
+    long: () => {
+      vibration(500);
+    },
+    double: () => {
+      vibration([50, 50, 50, 50]);
+    },
+    shake: (shake) => {
+      vibration(shake);
+    }
   }
 }
 
