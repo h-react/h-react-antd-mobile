@@ -16,6 +16,7 @@ class Initial extends Component {
       preprocessingStack: 0,
       preprocessingError: [],
       loggingId: LocalStorage.get('h-react-logging-id') || undefined,
+      currentUrl: this.location.url,
       subPages: [
         this.location.pathname === '/' ? this.location.url : '/',
       ],
@@ -51,6 +52,7 @@ class Initial extends Component {
   }
 
   componentDidMount() {
+    Navigator.banReturn();
     if (this.state.preprocessingStack <= 0) {
       History.efficacy('init');
     }

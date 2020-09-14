@@ -73,10 +73,12 @@ const $History = {
         const location = Parse.urlDispatch(url);
         if ($History.state.router[location.pathname]) {
           $History.state.subPages.push(url);
+          const u = $History.prefix + url
           $History.setState({
             subPages: $History.state.subPages,
+            currentUrl: u,
           });
-          window.history.replaceState(null, null, $History.prefix + url);
+          window.history.replaceState(null, null, u);
           const t = setTimeout(() => {
             window.clearTimeout(t);
             $History.efficacy('push');
@@ -94,12 +96,14 @@ const $History = {
         }
         $History.dispatch(true);
         $History.efficacy('pop');
-        window.history.replaceState(null, null, $History.prefix + $History.state.subPages[$History.state.subPages.length - 2]);
+        const u = $History.prefix + $History.state.subPages[$History.state.subPages.length - 2]
+        window.history.replaceState(null, null, u);
         const t = setTimeout(() => {
           window.clearTimeout(t);
           $History.state.subPages.pop();
           $History.setState({
             subPages: $History.state.subPages,
+            currentUrl: u,
           })
         }, 430)
       }
@@ -110,10 +114,12 @@ const $History = {
         if ($History.state.router[url]) {
           $History.state.subPages.pop();
           $History.state.subPages.push(url);
+          const u = $History.prefix + url
           $History.setState({
             subPages: $History.state.subPages,
+            currentUrl: u,
           });
-          window.history.replaceState(null, null, $History.prefix + url);
+          window.history.replaceState(null, null, u);
           const t = setTimeout(() => {
             window.clearTimeout(t);
             $History.efficacy('replace');
