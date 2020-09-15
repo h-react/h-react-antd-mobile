@@ -85,6 +85,7 @@ const Navigator = {
       window.history.pushState(null, null, document.URL);
       window.onpopstate = function (event) {
         window.history.pushState(null, null, History.state.currentUrl ? History.state.currentUrl : document.URL);
+        History.pop();
       };
       const banCode = (e) => {
         const ev = e || window.event;//获取event对象
