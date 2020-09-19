@@ -92,13 +92,9 @@ const Navigator = {
           Navigator.banReturnPressCount -= 1;
         }, 300);
         if (Navigator.banReturnPressCount >= 2) {
-          try {
-            if (WeixinJSBridge) {
-              WeixinJSBridge.call('closeWindow');
-            } else {
-              window.history.back();
-            }
-          } catch (e) {
+          if (WeixinJSBridge) {
+            WeixinJSBridge.call('closeWindow');
+          } else {
             window.history.back();
           }
           return;
