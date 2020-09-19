@@ -2,6 +2,7 @@
  * @param shakes 震动时间(number) | [震动时间(number)，停止时间(number)，震动时间(number)，停止时间(number)]
  */
 import {History} from "../index";
+import {Toast} from "antd-mobile";
 
 const vibration = (shakes) => {
   window.navigator.vibrate = window.navigator.vibrate || window.navigator.webkitVibrate || window.navigator.mozVibrate || window.navigator.msVibrate;
@@ -29,7 +30,7 @@ const Navigator = {
    * 返回设备（或浏览器型号）
    * @returns {string}
    */
-  device: () => {
+  device: (toString = true) => {
     const dev = [];
     const ua = navigator.userAgent.toLowerCase();
     if (!!ua.match(/\(i[^;]+;( U;)? cpu.+mac os x/)) {
@@ -56,7 +57,7 @@ const Navigator = {
     if (ua.indexOf('lumia') > -1) {
       dev.push('lumia');
     }
-    return dev.join(' ');
+    return toString ? dev.join(' ') : dev;
   },
   language: () => {
     let lang = navigator.language || navigator.browserLanguage;
@@ -91,11 +92,19 @@ const Navigator = {
           Navigator.banReturnPressCount -= 1;
         }, 300);
         if (Navigator.banReturnPressCount >= 2) {
-          window.history.back();
-        } else {
-          window.history.pushState(null, null, History.state.currentUrl ? History.state.currentUrl : document.URL);
-          History.pop();
+          try {
+            if (WeixinJSBridge) {
+              WeixinJSBridge.call('closeWindow');
+            } else {
+              window.history.back();
+            }
+          } catch (e) {
+            window.history.back();
+          }
+          return;
         }
+        window.history.pushState(null, null, History.state.currentUrl ? History.state.currentUrl : document.URL);
+        History.pop();
       };
       const banCode = (e) => {
         const ev = e || window.event;
