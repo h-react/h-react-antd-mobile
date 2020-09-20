@@ -59,6 +59,9 @@ const Navigator = {
     }
     return toString ? dev.join(' ') : dev;
   },
+  isDevice: (device) => {
+    return Navigator.device(false).includes(device);
+  },
   language: () => {
     let lang = navigator.language || navigator.browserLanguage;
     lang = lang.replace('-', '_');

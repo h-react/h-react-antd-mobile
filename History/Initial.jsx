@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {LocaleProvider} from 'antd-mobile';
 import {LeftOutlined, LoadingOutlined} from '@ant-design/icons';
 import {Api, Parse, History, Debug, Navigator, LocalStorage} from "h-react-antd-mobile";
-import LoginWechatDemo from "./LoginWechatDemo";
+import Login from "./Login";
 
 class Initial extends Component {
   constructor(props) {
@@ -127,7 +127,7 @@ class Initial extends Component {
         </LocaleProvider>
       );
     } else {
-      return this.props.Login || <LoginWechatDemo/>;
+      return this.props.Login || <Login/>;
     }
   }
 

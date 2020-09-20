@@ -22,25 +22,29 @@ const $History = {
   efficacy: (action) => {
     const back = document.querySelectorAll(".subPages >.back");
     const subs = document.querySelectorAll(".subPages >.subs > div");
-    back[0].className = subs.length <= 1 ? 'back' : 'back show';
-    switch (action) {
-      case 'init':
-        if (subs.length > 1) {
-          subs[subs.length - 1].className = 'init';
-        }
-        break;
-      case 'push':
-        subs[subs.length - 2].className = 'diving';
-        subs[subs.length - 1].className = 'face';
-        break;
-      case 'pop':
-        subs[subs.length - 1].className = 'leave';
-        subs[subs.length - 2].className = 'face';
-        back[0].className = subs.length <= 2 ? 'back' : 'back show';
-        break;
-      case 'replace':
-        subs[subs.length - 1].className = 'face';
-        break;
+    if (back.length > 0) {
+      back[0].className = subs.length <= 1 ? 'back' : 'back show';
+    }
+    if (subs.length > 0) {
+      switch (action) {
+        case 'init':
+          if (subs.length > 1) {
+            subs[subs.length - 1].className = 'init';
+          }
+          break;
+        case 'push':
+          subs[subs.length - 2].className = 'diving';
+          subs[subs.length - 1].className = 'face';
+          break;
+        case 'pop':
+          subs[subs.length - 1].className = 'leave';
+          subs[subs.length - 2].className = 'face';
+          back[0].className = subs.length <= 2 ? 'back' : 'back show';
+          break;
+        case 'replace':
+          subs[subs.length - 1].className = 'face';
+          break;
+      }
     }
   },
   link: ($this) => {
