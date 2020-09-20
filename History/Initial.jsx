@@ -4,6 +4,7 @@ import {LocaleProvider} from 'antd-mobile';
 import {LeftOutlined, LoadingOutlined} from '@ant-design/icons';
 import {Api, Parse, History, Debug, Navigator, LocalStorage} from "h-react-antd-mobile";
 import Login from "./Login";
+import LoginWechatDemo from "./LoginWechatDemo";
 
 class Initial extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class Initial extends Component {
         this.location.pathname === '/' ? this.location.url : '/',
       ],
     }
+    console.log(this.state.preprocessingLength);
 
     // debug
     Debug.set(this.location.search.debug);
@@ -64,9 +66,12 @@ class Initial extends Component {
     }
     for (let p in pre) {
       const t = typeof pre[p];
-      if (t === 'object' && typeof pre[p].name === 'function' && pre[p].name() === 'Preprocessing') {
+      if (!pre[p] || t !== 'object') {
+        continue;
+      }
+      if (typeof pre[p].name === 'function' && pre[p].name() === 'Preprocessing') {
         len++;
-      } else if (t === 'object') {
+      } else {
         len = this._preprocessingLength(pre[p], len);
       }
     }
@@ -76,7 +81,10 @@ class Initial extends Component {
   _preprocessing = async (pre) => {
     for (let p in pre) {
       const t = typeof pre[p];
-      if (t === 'object' && typeof pre[p].name === 'function' && pre[p].name() === 'Preprocessing') {
+      if (!pre[p] || t !== 'object') {
+        continue;
+      }
+      if (typeof pre[p].name === 'function' && pre[p].name() === 'Preprocessing') {
         await pre[p].query()
           .then((r) => {
             pre[p] = r;
@@ -87,9 +95,8 @@ class Initial extends Component {
             this.setState({
               preprocessingError: this.state.preprocessingError,
             });
-            console.error(error);
           });
-      } else if (t === 'object') {
+      } else {
         await this._preprocessing(pre[p]);
       }
     }
@@ -109,7 +116,7 @@ class Initial extends Component {
         </div>
       );
     }
-    if (this.state.loggingId > 0) {
+    if (this.state.loggingId !== undefined) {
       return (
         <LocaleProvider locale={History.i18nAntd()}>
           <div className="subPages">
@@ -127,7 +134,7 @@ class Initial extends Component {
         </LocaleProvider>
       );
     } else {
-      return this.props.Login || <Login/>;
+      return this.props.Login || <LoginWechatDemo/>;
     }
   }
 
