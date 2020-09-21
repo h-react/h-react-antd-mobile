@@ -15,13 +15,12 @@ export {default as Moment} from './Moment';
 
 export {default as Navigator} from './Navigator';
 
-// export {default as Xoss} from './Xoss';
-
 export {default as History} from './History';
 export {default as HistoryInitial} from './History/Initial';
 export {default as Preprocessing} from './History/Preprocessing.js';
 
 // components
+export {default as Avatar} from './Avatar';
 export {default as TitleF2} from './TitleF2';
 export {default as TitleAdapt} from './TitleAdapt';
 export {default as ModalSelectorSingle} from './ModalSelectorSingle';
