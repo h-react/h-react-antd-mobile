@@ -127,6 +127,24 @@ const Parse = {
   },
 
   /**
+   * php array_column
+   */
+  array_column: (array, valueKey, indexKey = null) => {
+    if (!array) {
+      return [];
+    }
+    const res = indexKey ? {} : [];
+    for (const k in array) {
+      if (indexKey) {
+        res[array[k][indexKey]] = array[k][valueKey];
+      } else {
+        res.push(array[k][valueKey]);
+      }
+    }
+    return res;
+  },
+
+  /**
    * 隐藏字符串
    * str 目标串
    * head 开头显示几位
