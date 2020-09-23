@@ -12,6 +12,8 @@ class FormTextarea extends Component {
         label={this.props.label}
         name={this.props.name}
         rows={this.props.rows}
+        value={this.props.value}
+        onChange={this.props.onChange}
       />
     );
   }

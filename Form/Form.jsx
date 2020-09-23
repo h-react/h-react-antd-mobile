@@ -1,13 +1,12 @@
 import './Form.less';
 import React, {Component} from 'react';
-import {Button, List, TextareaItem, Toast, WhiteSpace, WingBlank} from "antd-mobile";
-import {History, I18n} from "../index";
+import {Button, List, Toast, WhiteSpace, WingBlank} from "antd-mobile";
+import {I18n} from "../index";
 
 class Form extends Component {
   constructor(props) {
     super(props);
 
-    this.initialValues = this.props.initialValues || {};
     this.rules = this.props.rules || {
       required: [],
     };
@@ -18,50 +17,89 @@ class Form extends Component {
       this.children = [this.children];
     }
 
+    const values = {};
+    if (this.props.initialValues) {
+      Object.entries(this.props.initialValues).forEach((obj) => {
+        values[obj[0]] = obj[1];
+      })
+    }
+    this.resetState();
+  }
+
+  resetState = () => {
+    const values = {};
+    if (this.props.initialValues) {
+      Object.entries(this.props.initialValues).forEach((obj) => {
+        values[obj[0]] = obj[1];
+      })
+    }
     this.state = {
+      loading: false,
       disabled: this.rules.required.length > 0,
-      values: {},
+      values: values,
       error: {},
     }
   }
 
+  /**
+   * 判断表单按钮是否无效
+   * @returns {boolean}
+   */
+  disabled = () => {
+    let res = false;
+    if (this.state.loading) {
+      return true;
+    }
+    if (this.rules) {
+      // 必填决策
+      if (Array.isArray(this.rules.required)) {
+        for (let i in this.rules.required) {
+          const r = this.rules.required[i];
+          if (!this.state.values[r]) {
+            res = true;
+            break;
+          }
+        }
+      }
+    }
+    return res;
+  }
+
+  onReset = () => {
+    this.resetState();
+    this.setState(this.state);
+  }
+
   onChange = (evt) => {
-    const target = evt.target;
-    const targetType = target.type;
-    const name = target.name;
-    const label = target.label || target.getAttribute('label') || name;
+    const component = evt.target;
+    const type = component.type;
+    const name = component.name;
+    const label = component.label || component.getAttribute('label') || name;
+    console.log(type, name, label);
     if (!name) return;
     let value = undefined;
-    console.log(targetType);
-    switch (targetType) {
+    console.log(type);
+    switch (type) {
       case 'input':
       case 'text':
       case 'textarea':
       default:
-        value = target.value;
+        value = component.value;
         break;
     }
-    this.state.disabled = false;
     this.state.values[name] = value;
     this.state.error[name] = undefined;
     // 规则校验
     if (this.rules) {
       if (Array.isArray(this.rules.required)) {
-        // 按钮失效 disabled
-        for (let i in this.rules.required) {
-          if (!this.state.values[this.rules.required[i]]) {
-            this.state.disabled = true;
-            break;
-          }
-        }
-        // 必填 required
+        // 必填
         if (this.rules.required.includes(name) && !value) {
           this.state.error[name] = I18n('PLEASE_INPUT') + label;
         }
       }
     }
+    console.log(type, this.state);
     this.setState({
-      disabled: this.state.disabled,
       values: this.state.values,
       error: this.state.error,
     });
@@ -74,7 +112,6 @@ class Form extends Component {
           className="form"
           renderHeader={this.props.renderHeader ? () => this.props.renderHeader : null}
           renderFooter={this.props.renderFooter ? () => this.props.renderFooter : null}
-          onChange={this.onChange}
         >
           {
             this.children.map((child, idx) => {
@@ -95,7 +132,8 @@ class Form extends Component {
                   </span>
                   {
                     React.cloneElement(child, {
-                      defaultValue: this.initialValues[name] || undefined,
+                      value: this.state.values[name],
+                      onChange: this.onChange,
                     })
                   }
                   {
@@ -112,13 +150,23 @@ class Form extends Component {
         <WhiteSpace/>
         <WingBlank>
           <Button
+            style={this.props.btnStyle || null}
             type="primary"
             size="small"
-            disabled={this.state.disabled}
+            loading={this.state.loading}
+            disabled={this.disabled()}
             onClick={
               () => {
+                this.setState({loading: true});
                 if (typeof this.onFinish === 'function') {
-                  this.onFinish(this.state.values);
+                  this.onFinish(this.state.values, {
+                    reset: () => {
+                      this.onReset();
+                    },
+                    complete: () => {
+                      this.setState({loading: false});
+                    }
+                  });
                 }
               }
             }>{I18n('submit')}</Button>

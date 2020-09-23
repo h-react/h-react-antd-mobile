@@ -11,6 +11,8 @@ class FormInput extends Component {
         className="h-react-form-input"
         label={this.props.label}
         name={this.props.name}
+        value={this.props.value}
+        onChange={this.props.onChange}
       />
     );
   }
