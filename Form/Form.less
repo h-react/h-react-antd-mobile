@@ -11,25 +11,21 @@
     flex: 1;
   }
 
+  .am-list-line {
+    width: 100%;
+  }
+
   .am-list-content {
-    width: 100% !important;
     display: flex;
     flex-direction: row;
 
     .label {
-      width: 21%;
+      display: block;
+      width: 18% !important;
       padding-right: 8px;
       text-align: right;
       white-space: normal;
       word-break: break-all;
-    }
-
-    .am-image-picker {
-      flex: 1;
-
-      .am-image-picker-list {
-        padding: 5px 4px 0 0;
-      }
     }
 
     .required {
@@ -37,22 +33,70 @@
       color: red;
     }
 
+    .action {
+      flex: 1;
+
+      input, textarea {
+        width: 100%;
+        border: 0;
+        margin: 0;
+        padding: 0 0 3px 6px;
+      }
+
+      input::placeholder, textarea::placeholder {
+        line-height: 1.5;
+      }
+
+      .am-image-picker {
+        flex: 1;
+
+        .am-image-picker-list {
+          padding: 5px 4px 0 0;
+        }
+      }
+
+    }
+
     .error {
-      height: 21px;
       width: 21px;
-      margin-left: 6px;
+      height: 21px;
+      margin: 3px 4px 0 6px;
       background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='18' height='18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 1.266a7.69 7.69 0 015.469 2.264c.71.71 1.269 1.538 1.657 2.459.404.954.608 1.967.608 3.011a7.69 7.69 0 01-2.264 5.469 7.694 7.694 0 01-2.459 1.657A7.675 7.675 0 019 16.734a7.69 7.69 0 01-5.469-2.264 7.694 7.694 0 01-1.657-2.459A7.675 7.675 0 011.266 9 7.69 7.69 0 013.53 3.531a7.694 7.694 0 012.459-1.657A7.675 7.675 0 019 1.266zM9 0a9 9 0 00-9 9 9 9 0 009 9 9 9 0 009-9 9 9 0 00-9-9zm0 11.25a.703.703 0 01-.703-.703V4.06a.703.703 0 111.406 0v6.486A.703.703 0 019 11.25zm-.791 1.916a.791.791 0 111.582 0 .791.791 0 01-1.582 0z' fill='%23F50' fill-rule='evenodd'/%3E%3C/svg%3E");
       background-size: 21px auto;
     }
   }
 
-  .h-react-form-input, .h-react-form-textarea {
-    flex: 1;
-    border-top: 0;
-    border-left: 0.5px solid #cccccc;
-    border-right: 0;
-    border-bottom: 0;
-    padding-left: 4px;
+}
+
+.h-react-form .action {
+  .am-list-item {
+    padding: 0;
+    margin: 0;
+    height: auto;
+    min-height: unset;
+
+    .fake-input-placeholder {
+      padding: 0 0 3px 6px;
+      color: #777777 !important;
+    }
+
+    .fake-input {
+      padding: 0 0 3px 6px;
+      touch-action: none;
+    }
+
+    .fake-input.focus::after {
+      border-right: 1px solid #666666 !important;
+    }
+
+    .am-list-line::after {
+      height: 0 !important;
+    }
   }
 
+  .am-list-item.iphone {
+    .fake-input-placeholder {
+      color: #aaaaaa !important;
+    }
+  }
 }

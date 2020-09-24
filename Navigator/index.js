@@ -113,7 +113,7 @@ const Navigator = {
         let isEnabled = obj.getAttribute('enabled');
         isReadOnly = isReadOnly === null ? false : isReadOnly;
         isEnabled = isEnabled === null ? true : isEnabled;
-        const iptCom = ["password", "text", "textarea", "search"];
+        const iptCom = ["password", "text", "textarea", "search", "number", "tel"];
         const flag1 = (isBack && iptCom.includes(t) && (isReadOnly || isEnabled !== true));
         const flag2 = (isBack && !iptCom.includes(t));
         if (flag2) {

@@ -4,7 +4,6 @@ import {LocaleProvider} from 'antd-mobile';
 import {LeftOutlined, LoadingOutlined} from '@ant-design/icons';
 import {Api, Parse, History, Debug, Navigator, LocalStorage} from "h-react-antd-mobile";
 import Login from "./Login";
-import LoginWechatDemo from "./LoginWechatDemo";
 
 class Initial extends Component {
   constructor(props) {
@@ -54,7 +53,9 @@ class Initial extends Component {
   }
 
   componentDidMount() {
-    Navigator.banReturn();
+    if(!Navigator.isDevice('ios')){
+      Navigator.banReturn();
+    }
     if (this.state.preprocessingStack <= 0) {
       History.efficacy('init');
     }
@@ -134,7 +135,7 @@ class Initial extends Component {
         </LocaleProvider>
       );
     } else {
-      return this.props.Login || <LoginWechatDemo/>;
+      return this.props.Login || <Login/>;
     }
   }
 

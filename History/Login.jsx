@@ -1,15 +1,18 @@
-import './Login.less';
+import './Login-wechat.less';
+import './Login-normal.less';
 import React, {Component} from 'react';
-import {Toast, Result} from "antd-mobile";
+import {Toast} from "antd-mobile";
 import {WechatOutlined} from '@ant-design/icons';
-import {Api, I18n, History, LocalStorage, Navigator, Parse} from "h-react-antd-mobile";
+import {Api, I18n, History, LocalStorage, Parse} from "h-react-antd-mobile";
+import Form from "../Form";
+import FormInput from "../Form/FormInput";
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.search = Parse.urlSearch();
-    this.isWechat = Navigator.isDevice('wechat');
+    this.isWechat = false;//Navigator.isDevice('wechat');
     this.state = {
       status: '',
     }
@@ -70,7 +73,28 @@ class Login extends Component {
           </div>
         </div>
         :
-        <div>暂不支持其他客户端</div>
+        <div className={`h-react-login-normal ${this.state.status}`}>
+          <div className="title">{I18n('login')}</div>
+          <Form
+            rules={{
+              required: ['account', 'password']
+            }}
+            onFinish={(values, form) => {
+              values.license_id = 3;
+              Api.query().post({USER_LOGIN: values}, (response) => {
+                form.complete();
+                Api.handle(response, () => {
+                  LocalStorage.set('h-react-logging-id', response.data.user_id);
+                  History.setState({loggingId: response.data.user_id});
+                  History.efficacy('init');
+                });
+              });
+            }}
+          >
+            <FormInput name="account" label={I18n('account')} type="phone"/>
+            <FormInput name="password" label={I18n('password')} type="password"/>
+          </Form>
+        </div>
     );
   }
 }

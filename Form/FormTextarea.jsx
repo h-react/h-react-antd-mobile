@@ -5,15 +5,16 @@ class FormTextarea extends Component {
     super(props);
   }
 
+  onChange = (evt) => {
+    this.props.onChange(evt.target.value, this.props.name, this.props.label);
+  }
+
   render() {
     return (
       <textarea
-        className="h-react-form-textarea"
-        label={this.props.label}
-        name={this.props.name}
-        rows={this.props.rows}
+        rows={this.props.rows || 3}
         value={this.props.value}
-        onChange={this.props.onChange}
+        onChange={this.onChange}
       />
     );
   }

@@ -16,21 +16,18 @@ class Form extends Component {
     if (!Array.isArray(this.children)) {
       this.children = [this.children];
     }
-
-    const values = {};
-    if (this.props.initialValues) {
-      Object.entries(this.props.initialValues).forEach((obj) => {
-        values[obj[0]] = obj[1];
-      })
-    }
     this.resetState();
   }
 
   resetState = () => {
     const values = {};
+    this.children.forEach((child) => {
+      const name = child.props.name;
+      values[name] = '';
+    });
     if (this.props.initialValues) {
       Object.entries(this.props.initialValues).forEach((obj) => {
-        values[obj[0]] = obj[1];
+        values[obj[0]] = obj[1] || '';
       })
     }
     this.state = {
@@ -47,6 +44,10 @@ class Form extends Component {
    */
   disabled = () => {
     let res = false;
+    if (!this.onFinish) {
+      console.warn('Warning: Because props.onFinish is not set, the submit button is always invalid!');
+      return true;
+    }
     if (this.state.loading) {
       return true;
     }
@@ -70,23 +71,8 @@ class Form extends Component {
     this.setState(this.state);
   }
 
-  onChange = (evt) => {
-    const component = evt.target;
-    const type = component.type;
-    const name = component.name;
-    const label = component.label || component.getAttribute('label') || name;
-    console.log(type, name, label);
-    if (!name) return;
-    let value = undefined;
-    console.log(type);
-    switch (type) {
-      case 'input':
-      case 'text':
-      case 'textarea':
-      default:
-        value = component.value;
-        break;
-    }
+  onChange = (value, name, label) => {
+    console.log(value, name, label);
     this.state.values[name] = value;
     this.state.error[name] = undefined;
     // 规则校验
@@ -98,7 +84,6 @@ class Form extends Component {
         }
       }
     }
-    console.log(type, this.state);
     this.setState({
       values: this.state.values,
       error: this.state.error,
@@ -115,6 +100,9 @@ class Form extends Component {
         >
           {
             this.children.map((child, idx) => {
+              if (child.props.type === 'hidden') {
+                return null;
+              }
               const name = child.props.name;
               const label = child.props.label || '';
               return (
@@ -122,24 +110,26 @@ class Form extends Component {
                   key={idx}
                   error={true}
                 >
-                  <span className="label">
+                  <div className="label">
                     {
                       this.rules.required.includes(name)
                         ? <span className="required">*</span>
                         : null
                     }
                     {label}
-                  </span>
-                  {
-                    React.cloneElement(child, {
-                      value: this.state.values[name],
-                      onChange: this.onChange,
-                    })
-                  }
+                  </div>
+                  <div className="action">
+                    {
+                      React.cloneElement(child, {
+                        value: this.state.values[name],
+                        onChange: this.onChange,
+                      })
+                    }
+                  </div>
                   {
                     this.state.error[name] &&
-                    <span className="error" onClick={() => {
-                      Toast.info(this.state.error[name]);
+                    <div className="error" onClick={() => {
+                      Toast.info(this.state.error[name], 1.5);
                     }}/>
                   }
                 </List.Item>
