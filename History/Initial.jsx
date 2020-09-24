@@ -21,7 +21,6 @@ class Initial extends Component {
         this.location.pathname === '/' ? this.location.url : '/',
       ],
     }
-    console.log(this.state.preprocessingLength);
 
     // debug
     Debug.set(this.location.search.debug);

@@ -27,8 +27,10 @@ export {default as XossShow} from './Xoss/Show';
 export {default as Avatar} from './Avatar';
 export {default as TitleF2} from './TitleF2';
 export {default as TitleAdapt} from './TitleAdapt';
+//
 export {default as Form} from './Form';
 export {default as FormInput} from './Form/FormInput';
 export {default as FormTextarea} from './Form/FormTextarea';
+export {default as FormImage} from './Form/FormImage';
 export {default as ModalSelectorSingle} from './ModalSelectorSingle';
 export {default as ModalSelectorMulti} from './ModalSelectorMulti';

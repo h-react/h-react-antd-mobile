@@ -83,6 +83,16 @@ const Navigator = {
       vibration(shake);
     }
   },
+  /**
+   * 强制退出
+   */
+  exit: () => {
+    if (WeixinJSBridge) {
+      WeixinJSBridge.call('closeWindow');
+    } else {
+      window.history.back();
+    }
+  },
   banReturnPressCount: 0,
   banReturn: () => {
     if (window.history) {
@@ -94,11 +104,7 @@ const Navigator = {
           Navigator.banReturnPressCount -= 1;
         }, 300);
         if (Navigator.banReturnPressCount >= 2) {
-          if (WeixinJSBridge) {
-            WeixinJSBridge.call('closeWindow');
-          } else {
-            window.history.back();
-          }
+          Navigator.exit();
           return;
         }
         window.history.pushState(null, null, History.state.currentUrl ? History.state.currentUrl : document.URL);
