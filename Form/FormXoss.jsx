@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {ImagePicker} from "antd-mobile";
 import Xoss from "../Xoss";
-import {History, LocalStorage} from "../index";
-import Crypto from "../Api/Crypto";
+import {LocalStorage} from "../index";
 
-class FormImage extends Component {
+class FormXoss extends Component {
   constructor(props) {
     super(props);
+  }
+
+  formatHash = (data) => {
+    data.forEach(hash => hash.indexOf('/xoss_download') !== -1 ? hash.split('/')[2] : hash);
   }
 
   onChange = (files) => {
@@ -34,12 +37,12 @@ class FormImage extends Component {
             response.data.data.forEach((val, idx) => {
               newFiles[cur[idx]] = val.data.xoss_key;
             });
-            this.props.onChange(newFiles, this.props.name, this.props.label);
+            this.props.onChange(this.formatHash(newFiles), this.props.name, this.props.label);
           }
         }
       });
     } else {
-      this.props.onChange(newFiles, this.props.name, this.props.label);
+      this.props.onChange(this.formatHash(newFiles), this.props.name, this.props.label);
     }
   }
 
@@ -67,4 +70,4 @@ class FormImage extends Component {
   }
 }
 
-export default FormImage;
+export default FormXoss;

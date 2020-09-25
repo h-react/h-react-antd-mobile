@@ -1,10 +1,10 @@
-import './ModalSelectorMulti.less';
+import './MultiSelector.less';
 import React, {Component} from 'react';
 import {List, Modal, Checkbox, TextareaItem} from "antd-mobile";
 import Parse from "../Parse";
 import {I18n} from "../index";
 
-class ModalSelectorMulti extends Component {
+class MultiSelector extends Component {
   constructor(props) {
     super(props);
 
@@ -166,16 +166,18 @@ class ModalSelectorMulti extends Component {
             </List>
           </div>
         </Modal>
-        <Item
-          extra={this.state.tips}
-          arrow="horizontal"
-          onClick={() => {
-            this.setState({visible: true})
-          }}
-        >{this.props.children}</Item>
+        <div className="am-list-item am-list-item-middle" onClick={() => {
+          this.setState({visible: true})
+        }}>
+          <div className="am-list-line">
+            <div className="am-list-content">&nbsp;</div>
+            <div className="am-list-extra">{this.state.tips || I18n('PLEASE_CHOOSE')}</div>
+            <div className="am-list-arrow am-list-arrow-horizontal" aria-hidden="true"/>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-export default ModalSelectorMulti;
+export default MultiSelector;

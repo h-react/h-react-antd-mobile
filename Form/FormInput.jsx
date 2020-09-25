@@ -24,7 +24,7 @@ class FormInput2 extends Component {
         if (Navigator.isDevice('ios')) {
           component = (
             <input
-              type="text"
+              type="number"
               placeholder={I18n("PLEASE_INPUT") + this.props.label}
               pattern="[0-9]*"
               value={this.props.value || ''}

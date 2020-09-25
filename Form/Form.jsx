@@ -108,7 +108,7 @@ class Form extends Component {
               return (
                 <List.Item
                   key={idx}
-                  error={true}
+                  error={this.state.error[name]}
                 >
                   <div className="label">
                     {

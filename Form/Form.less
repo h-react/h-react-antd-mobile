@@ -11,11 +11,11 @@
     flex: 1;
   }
 
-  .am-list-line {
+  > .am-list .am-list-line {
     width: 100%;
   }
 
-  .am-list-content {
+  > .am-list .am-list-content {
     display: flex;
     flex-direction: row;
 
@@ -71,6 +71,10 @@
 }
 
 .h-react-form .action {
+  .am-list-item:active {
+    background: #dddddd;
+  }
+
   .am-list-item {
     padding: 0;
     margin: 0;
@@ -91,8 +95,17 @@
       border-right: 1px solid #666666 !important;
     }
 
+    .am-list-content {
+      padding: 0 !important;
+    }
+
     .am-list-line::after {
       height: 0 !important;
+    }
+
+    .am-list-extra {
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
 
