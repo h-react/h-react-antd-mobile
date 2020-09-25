@@ -10,7 +10,16 @@ class FormXoss extends Component {
   }
 
   formatHash = (data) => {
-    data.forEach(hash => hash.indexOf('/xoss_download') !== -1 ? hash.split('/')[2] : hash);
+
+    data.forEach((hash, idx) => {
+      if (hash.indexOf('/xoss_download') !== -1) {
+        let h = hash.split('/')[2];
+        h = h.split('|')[0];
+        data[idx] = h;
+      }
+    });
+    console.log("data", data);
+    return data;
   }
 
   onChange = (files) => {

@@ -72,7 +72,6 @@ class Form extends Component {
   }
 
   onChange = (value, name, label) => {
-    console.log(value, name, label);
     this.state.values[name] = value;
     this.state.error[name] = undefined;
     // 规则校验
@@ -105,12 +104,16 @@ class Form extends Component {
               }
               const name = child.props.name;
               const label = child.props.label || '';
+              const style = {};
+              if (this.props.labelWidth) {
+                style.width = (isNaN(this.props.labelWidth) ? this.props.labelWidth : this.props.labelWidth + 'px');
+              }
               return (
                 <List.Item
                   key={idx}
                   error={this.state.error[name]}
                 >
-                  <div className="label">
+                  <div className="label" style={style}>
                     {
                       this.rules.required.includes(name)
                         ? <span className="required">*</span>
@@ -159,7 +162,7 @@ class Form extends Component {
                   });
                 }
               }
-            }>{I18n('submit')}</Button>
+            }>{this.props.buttonLabel || I18n('submit')}</Button>
         </WingBlank>
         <WhiteSpace/>
       </div>

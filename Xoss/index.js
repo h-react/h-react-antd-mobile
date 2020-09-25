@@ -11,6 +11,9 @@ const Xoss = {
    * options[reverse]反相 (1 or 0)
    */
   url: (key, options = {}) => {
+    if (!key) {
+      return null;
+    }
     const path = [
       key,
       options.thunb ? options.thunb : '',

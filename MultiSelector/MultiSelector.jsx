@@ -57,6 +57,7 @@ class MultiSelector extends Component {
     let other = [];
     const label = [];
     for (let k in this.state.value) {
+      if (!isNaN(k)) k = parseInt(k, 10);
       if (this.state.value[k] === true) {
         select.push(k);
         label.push(Parse.mapLabel(this.props.data, k));
@@ -85,6 +86,7 @@ class MultiSelector extends Component {
     });
     const tips = [];
     for (let k in this.state.value) {
+      if (!isNaN(k)) k = parseInt(k, 10);
       if (this.state.value[k] === true) {
         tips.push(Parse.mapLabel(this.props.data, k));
       }
@@ -108,7 +110,6 @@ class MultiSelector extends Component {
 
   render() {
 
-    const Item = List.Item;
     const CheckboxItem = Checkbox.CheckboxItem;
 
     return (
@@ -171,7 +172,7 @@ class MultiSelector extends Component {
         }}>
           <div className="am-list-line">
             <div className="am-list-content">&nbsp;</div>
-            <div className="am-list-extra">{this.state.tips || I18n('PLEASE_CHOOSE')}</div>
+            <div className="am-list-extra">{this.state.tips}</div>
             <div className="am-list-arrow am-list-arrow-horizontal" aria-hidden="true"/>
           </div>
         </div>

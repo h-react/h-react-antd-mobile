@@ -100,7 +100,7 @@ const Parse = {
       return '';
     }
     let res = '';
-    for (const k in map) {
+    for (let k in map) {
       if (map[k].value === value) {
         res = map[k].label;
         break;
@@ -117,7 +117,7 @@ const Parse = {
       return '';
     }
     let res = '';
-    for (const k in map) {
+    for (let k in map) {
       if (map[k].label === label) {
         res = map[k].value;
         break;

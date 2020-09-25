@@ -16,12 +16,12 @@ class FormSelect extends Component {
     this.props.onChange(val[0], this.props.name, this.props.label);
   }
 
-  onChangeMulti = (val) => {
+  onChangeMulti = (val, other, text) => {
     this.props.onChange(val, this.props.name, this.props.label);
   }
 
   value = () => {
-    return [this.props.value];
+    return Array.isArray(this.props.value) ? this.props.value : [this.props.value];
   }
 
   render() {
