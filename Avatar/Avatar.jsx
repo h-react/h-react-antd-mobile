@@ -17,6 +17,7 @@ class Avatar extends Component {
     }
     return (
       <img
+        style={this.props.style || {}}
         className="h-react-avatar"
         alt="avatar"
         src={src}/>

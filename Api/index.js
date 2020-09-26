@@ -55,6 +55,8 @@ const Index = {
       } else {
         Toast.success(I18n('success'));
       }
+    } else if (response.error === 44444) {
+      Toast.info(I18n('login_offline'));
     } else if (response.error === 99999) {
       if (throwable !== null) {
         throwable();

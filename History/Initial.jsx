@@ -15,7 +15,7 @@ class Initial extends Component {
       preprocessingLength: this._preprocessingLength(props.preprocessing),
       preprocessingStack: 0,
       preprocessingError: [],
-      loggingId: LocalStorage.get('h-react-logging-id') || undefined,
+      loggingId: LocalStorage.get('h-react-logging-id') || null,
       currentUrl: this.location.url,
       subPages: [
         this.location.pathname === '/' ? this.location.url : '/',
@@ -52,7 +52,7 @@ class Initial extends Component {
   }
 
   componentDidMount() {
-    if(!Navigator.isDevice('ios')){
+    if (!Navigator.isDevice('ios')) {
       Navigator.banReturn();
     }
     if (this.state.preprocessingStack <= 0) {
@@ -116,7 +116,7 @@ class Initial extends Component {
         </div>
       );
     }
-    if (this.state.loggingId !== undefined) {
+    if (this.state.loggingId !== null) {
       return (
         <LocaleProvider locale={History.i18nAntd()}>
           <div className="subPages">
