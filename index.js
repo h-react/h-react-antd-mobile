@@ -38,4 +38,5 @@ export {default as FormRegion} from './Form/FormRegion';
 export {default as FormProvincial} from './Form/FormProvincial';
 export {default as FormMunicipal} from './Form/FormMunicipal';
 export {default as FormXoss} from './Form/FormXoss';
+export {default as FormDate} from './Form/FormDate';
 export {default as ModalSelectorSingle} from './ModalSelectorSingle';

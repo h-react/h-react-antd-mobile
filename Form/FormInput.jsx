@@ -5,6 +5,8 @@ import {InputItem} from "antd-mobile";
 class FormInput2 extends Component {
   constructor(props) {
     super(props);
+
+    this.type = this.props.type || 'text';
   }
 
   onChange = (evt) => {
@@ -16,9 +18,8 @@ class FormInput2 extends Component {
   }
 
   render() {
-    const type = this.props.type || 'text';
     let component = null;
-    switch (type) {
+    switch (this.type) {
       case "integer":
       case "int":
         if (Navigator.isDevice('ios')) {
@@ -63,6 +64,7 @@ class FormInput2 extends Component {
             placeholder={I18n("PLEASE_INPUT") + this.props.label}
             moneyKeyboardAlign="left"
             // moneyKeyboardWrapProps={History.state.moneyKeyboardWrapProps}
+            value={this.props.value || ''}
             onChange={this.onChangeAntd}
             extra={this.props.extra}
           />
@@ -71,7 +73,7 @@ class FormInput2 extends Component {
       default:
         component = (
           <input
-            type={type}
+            type={this.type}
             placeholder={I18n("PLEASE_INPUT") + this.props.label}
             value={this.props.value}
             onChange={this.onChange}
