@@ -48,7 +48,7 @@ const Index = {
    * @param error
    * @param throwable
    */
-  handle: (response, success, error = null, throwable = null) => {
+  handle: (response, success = null, error = null, throwable = null) => {
     if (response.error === 0) {
       if (success !== null) {
         success();

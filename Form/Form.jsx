@@ -27,7 +27,7 @@ class Form extends Component {
     });
     if (this.props.initialValues) {
       Object.entries(this.props.initialValues).forEach((obj) => {
-        values[obj[0]] = obj[1] || '';
+        values[obj[0]] = obj[1] || undefined;
       })
     }
     this.state = {
