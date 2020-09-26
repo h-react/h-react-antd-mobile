@@ -38,6 +38,15 @@ class Form extends Component {
     }
   }
 
+  empty = (val) => {
+    if (!val) {
+      return true;
+    } else if (Array.isArray(val) && val.length <= 0) {
+      return true;
+    }
+    return false;
+  }
+
   /**
    * 判断表单按钮是否无效
    * @returns {boolean}
@@ -56,7 +65,7 @@ class Form extends Component {
       if (Array.isArray(this.rules.required)) {
         for (let i in this.rules.required) {
           const r = this.rules.required[i];
-          if (!this.state.values[r]) {
+          if (this.empty(this.state.values[r])) {
             res = true;
             break;
           }
@@ -78,8 +87,12 @@ class Form extends Component {
     if (this.rules) {
       if (Array.isArray(this.rules.required)) {
         // 必填
-        if (this.rules.required.includes(name) && !value) {
-          this.state.error[name] = I18n('PLEASE_INPUT') + label;
+        if (this.rules.required.includes(name)) {
+          if (!value) {
+            this.state.error[name] = I18n('PLEASE_INPUT') + label;
+          } else if (Array.isArray(value) && value.length <= 0) {
+            this.state.error[name] = I18n('PLEASE_SELECT') + label;
+          }
         }
       }
     }

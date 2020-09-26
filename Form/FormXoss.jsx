@@ -57,12 +57,15 @@ class FormXoss extends Component {
 
   files = () => {
     const fs = [];
-    this.props.value.forEach((hash) => {
-      fs.push({
-        url: Xoss.url(hash),
-        id: hash,
+    const values = this.props.value || [];
+    if (values) {
+      values.forEach((hash) => {
+        fs.push({
+          url: Xoss.url(hash),
+          id: hash,
+        });
       });
-    });
+    }
     return fs;
   }
 
