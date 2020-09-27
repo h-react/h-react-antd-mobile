@@ -3,7 +3,7 @@ import './Login-normal.less';
 import React, {Component} from 'react';
 import {Toast} from "antd-mobile";
 import {WechatOutlined} from '@ant-design/icons';
-import {Api, I18n, History, LocalStorage, Parse} from "h-react-antd-mobile";
+import {Api, I18n, History, LocalStorage, Parse, Navigator} from "h-react-antd-mobile";
 import Form from "../Form";
 import FormInput from "../Form/FormInput";
 
@@ -12,7 +12,7 @@ class Login extends Component {
     super(props);
 
     this.search = Parse.urlSearch();
-    this.isWechat = false;//Navigator.isDevice('wechat');
+    this.isWechat = Navigator.isDevice('wechat');
     this.state = {
       status: '',
     }
