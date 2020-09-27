@@ -17,9 +17,12 @@ class List extends Component {
     this.mode = this.props.mode || 'tiny';
     this.state = {
       offsetY: 0,
-      canDo: false,
     }
 
+  }
+
+  canDo = () => {
+    return this.state.offsetY > this.distanceToRefresh;
   }
 
   onRefresh = () => {
@@ -43,17 +46,16 @@ class List extends Component {
       const y = evt.touches[0].clientY;
       const offset = y - this.y - this.scrollTop - scrollTop;
       if (offset > 0) {
-        this.state.canDo = this.state.offsetY > this.distanceToRefresh;
+        this.state.offsetY = Math.abs(offset / 2);
         this.setState({
-          offsetY: Math.abs(offset / 2),
-          canDo: this.state.canDo,
+          offsetY: this.state.offsetY,
         });
       }
     }
   }
 
   onTouchEnd = () => {
-    if (this.state.canDo) {
+    if (this.canDo()) {
       this.onRefresh();
     }
     const _t2 = setInterval(() => {
@@ -74,7 +76,7 @@ class List extends Component {
 
   renderIndicator = () => {
     if (!this.props.refreshing) {
-      if (this.state.canDo) {
+      if (this.canDo()) {
         return <span><FullscreenOutlined/> {I18n('Release to refresh')}</span>;
       }
       return <span><VerticalAlignBottomOutlined/>{I18n('Pull down to refresh')}</span>;
