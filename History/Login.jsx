@@ -31,7 +31,7 @@ class Login extends Component {
               this.setState({status: 'success1'});
               const timer2 = setTimeout(() => {
                 this.setState({status: 'success2'});
-                LocalStorage.set('h-react-logging-id', 1);
+                LocalStorage.set('h-react-logging-id', logging_id);
                 History.setState({loggingId: logging_id});
                 History.efficacy('init');
                 window.clearTimeout(timer2);
