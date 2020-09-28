@@ -61,7 +61,6 @@ class ModalSelectorSingle extends Component {
               data={this.props.data || []}
               value={this.state.value}
               onChange={(val) => {
-                console.log(val);
                 this.state.value = val;
               }}
             />

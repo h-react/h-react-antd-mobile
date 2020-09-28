@@ -23,7 +23,7 @@ class Login extends Component {
       Api.query().post({SDK_WXMP_OAUTH: this.search.code ? this.search : {}}, (res) => {
         if (res.error === 0) {
           if (res.data.string) {
-            window.location = res.data.string; //微信跳转
+            window.location.replace(res.data.string) //微信跳转
           } else {
             const logging_id = res.data.logging_id;
             if (logging_id) {
