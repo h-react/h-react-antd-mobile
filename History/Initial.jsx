@@ -1,6 +1,6 @@
 import './Initial.less';
 import React, {Component} from 'react';
-import {LocaleProvider} from 'antd-mobile';
+import {LocaleProvider, Toast} from 'antd-mobile';
 import {LeftOutlined, LoadingOutlined} from '@ant-design/icons';
 import {Api, Parse, History, Debug, Navigator, LocalStorage} from "h-react-antd-mobile";
 import Login from "./Login";

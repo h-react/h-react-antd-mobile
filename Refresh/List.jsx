@@ -10,15 +10,15 @@ class List extends Component {
   constructor(props) {
     super(props);
 
-    this.id = nanoid(20);
-    this.distanceToRefresh = this.props.distanceToRefresh || window.devicePixelRatio * 28;
+    this.id = 'i' + nanoid(20);
+    this.distanceToRefresh = this.props.distanceToRefresh || window.devicePixelRatio * 20;
+    this.maxHeight = this.props.maxHeight || (this.distanceToRefresh * 1.2);
     this.scrollTop = 0;
     this.y = 0;
     this.mode = this.props.mode || 'tiny';
     this.state = {
       offsetY: 0,
     }
-
   }
 
   canDo = () => {
@@ -42,10 +42,12 @@ class List extends Component {
 
   onTouchMove = (evt) => {
     if (this.props.refreshing === false) {
-      const scrollTop = document.getElementById(this.id).scrollTop;
+      const ele = document.getElementById(this.id);
+      const scrollTop = ele.scrollTop;
       const y = evt.touches[0].clientY;
       const offset = y - this.y - this.scrollTop - scrollTop;
       if (offset > 0) {
+        evt.preventDefault();
         this.state.offsetY = Math.abs(offset / 2);
         this.setState({
           offsetY: this.state.offsetY,
@@ -99,21 +101,21 @@ class List extends Component {
     return this.props.children || null;
   }
 
+  componentDidMount() {
+    const ele = document.getElementById(this.id);
+    ele.addEventListener('touchstart', this.onTouchStart, {passive: false});
+    ele.addEventListener('touchmove', this.onTouchMove, {passive: false});
+    ele.addEventListener('touchend', this.onTouchEnd, {passive: false});
+  }
+
   render() {
-    const maxHeight = this.props.maxHeight || 70;
-    let opacity = this.state.offsetY / (maxHeight * 0.75);
+    let opacity = this.state.offsetY / (this.distanceToRefresh * 0.8);
     if (opacity > 1) opacity = 1.0;
     return (
-      <div
-        id={this.id}
-        className="h-react-refresh"
-        onTouchStart={this.onTouchStart}
-        onTouchMove={this.onTouchMove}
-        onTouchEnd={this.onTouchEnd}
-      >
+      <div id={this.id} className="h-react-refresh">
         <div className="indicator" style={{
-          height: Math.min(maxHeight, this.state.offsetY) + 'px',
-          lineHeight: Math.min(maxHeight, this.state.offsetY) + 'px',
+          height: Math.min(this.maxHeight, this.state.offsetY) + 'px',
+          lineHeight: Math.min(this.maxHeight, this.state.offsetY) + 'px',
           opacity: opacity.toFixed(1),
         }}>
           {this.renderIndicator()}

@@ -93,6 +93,9 @@ const Navigator = {
       window.history.back();
     }
   },
+  /**
+   * 禁止返回
+   */
   banReturnPressCount: 0,
   banReturn: () => {
     if (window.history) {
