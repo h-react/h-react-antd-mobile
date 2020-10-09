@@ -26,6 +26,7 @@ export {default as XossShow} from './Xoss/Show';
 
 export {default as Avatar} from './Avatar';
 export {default as Brick} from './Brick';
+export {default as Confirm} from './Confirm';
 export {default as TitleF2} from './TitleF2';
 export {default as TitleAdapt} from './TitleAdapt';
 export {default as MultiSelector} from './MultiSelector';
